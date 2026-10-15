@@ -162,9 +162,7 @@ def interpret_policy_artifacts(
                         {"type": "text", "text": prompt},
                         {
                             "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/png;base64,{image_b64}"
-                            },
+                            "image_url": {"url": f"data:image/png;base64,{image_b64}"},
                         },
                     ],
                 }
@@ -195,9 +193,7 @@ def interpret_policy_artifacts(
                     )
                     time.sleep(wait)
                 else:
-                    raise RuntimeError(
-                        f"VLM call failed after 3 attempts: {e}"
-                    ) from e
+                    raise RuntimeError(f"VLM call failed after 3 attempts: {e}") from e
 
     def resolve_image_path(img_ref, doc_name):
         """Try multiple strategies to find the image file."""
@@ -238,18 +234,14 @@ def interpret_policy_artifacts(
         matches = list(img_pattern.finditer(md_content))
 
         if not matches:
-            print(
-                f"  {doc_name}: no images found, copying markdown as-is", flush=True
-            )
+            print(f"  {doc_name}: no images found, copying markdown as-is", flush=True)
             shutil.copy2(md_file, output_path_p / f"{doc_name}_policy.md")
             json_src = input_path_p / f"{doc_name}.json"
             if json_src.exists():
                 shutil.copy2(json_src, output_path_p / f"{doc_name}.json")
             continue
 
-        print(
-            f"  {doc_name}: found {len(matches)} image(s) to interpret", flush=True
-        )
+        print(f"  {doc_name}: found {len(matches)} image(s) to interpret", flush=True)
 
         artifacts_metadata = []
         assembled_md = md_content
@@ -260,9 +252,7 @@ def interpret_policy_artifacts(
 
             img_path = resolve_image_path(img_ref, doc_name)
             if img_path is None:
-                print(
-                    f"  {doc_name}: image {img_ref} not found, skipping", flush=True
-                )
+                print(f"  {doc_name}: image {img_ref} not found, skipping", flush=True)
                 continue
 
             with open(img_path, "rb") as f:
